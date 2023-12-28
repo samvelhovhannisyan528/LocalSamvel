@@ -14,6 +14,6 @@ namespace TechnicalTask.Entities.Entities
 
         public byte[] Photo { get; set; }
 
-        public Position Position { get; set; }
+        public virtual Position Position { get; set; }
     }
 }

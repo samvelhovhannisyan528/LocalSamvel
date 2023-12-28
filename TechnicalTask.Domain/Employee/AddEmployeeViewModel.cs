@@ -10,6 +10,6 @@ namespace TechnicalTask.Domain.Employee
 
         public byte[] Photo { get; set; }
 
-        public PositionViewModel Position { get; set; }
+        public virtual PositionViewModel Position { get; set; }
     }
 }

@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using TechnicalTask.Entities.Context;
+using TechnicalTask.Entities.Entities;
+using TechnicalTask.Entities.Interfaces;
+using TechnicalTask.Entities.Repositories;
+using TechnicalTask.Services;
 
 namespace TechnicalTask.WEBAPI
 {
@@ -16,6 +20,11 @@ namespace TechnicalTask.WEBAPI
                     options.UseSqlite(configuration.GetConnectionString("TechnicalTaskDbConnectionString")));
 
             // Add services to the container.
+            builder.Services.AddTransient<IBaseRepository<Employee>, BaseRepository<Employee>>();
+            builder.Services.AddTransient<IBaseRepository<Project>, BaseRepository<Project>>();
+            builder.Services.AddTransient<IBaseRepository<Position>, BaseRepository<Position>>();
+            builder.Services.AddTransient<IBaseRepository<Service>, BaseRepository<Service>>();
+            builder.Services.AddServiceLayer();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

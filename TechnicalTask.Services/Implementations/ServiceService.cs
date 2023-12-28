@@ -1,31 +1,31 @@
-﻿using TechnicalTask.Domain.Position;
+﻿using TechnicalTask.Domain.Service;
 using TechnicalTask.Entities.Entities;
 using TechnicalTask.Entities.Interfaces;
 using TechnicalTask.Services.Interfaces;
 
 namespace TechnicalTask.Services.Implementations
 {
-    public class PositionService : IPositionService
+    public class ServiceService : IServiceService
     {
-        private readonly IBaseRepository<Position> _repository;
+        private readonly IBaseRepository<Service> _repository;
 
-        public PositionService(IBaseRepository<Position> repository)
+        public ServiceService(IBaseRepository<Service> repository)
         {
             _repository = repository;
         }
 
-        public async Task<bool> AddAsync(AddPositionViewModel entity)
+        public async Task<bool> AddAsync(AddServiceViewModel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            Position position = new Position()
+            Service service = new Service()
             {
                 Name = entity.Name,
                 Description = entity.Description,
-                EmployeeId = entity.EmployeeId,
+                Picture = entity.Picture,
             };
 
-            var result = await _repository.AddAsync(position);
+            var result = await _repository.AddAsync(service);
 
             return result;
         }
@@ -48,55 +48,57 @@ namespace TechnicalTask.Services.Implementations
             return result;
         }
 
-        public async Task<List<PositionViewModel>> GetAllAsync()
+        public async Task<List<ServiceViewModel>> GetAllAsync()
         {
             var models = await _repository.GetAllAsync();
-            List<PositionViewModel> result = new List<PositionViewModel>();
+            List<ServiceViewModel> result = new List<ServiceViewModel>();
 
             foreach (var model in models)
             {
-                result.Add(new PositionViewModel
+                result.Add(new ServiceViewModel
                 {
                     Id = model.Id,
                     Name = model.Name,
                     Description = model.Description,
+                    Picture = model.Picture,
                 });
             }
 
             return result;
         }
 
-        public async Task<PositionViewModel> GetByIdAsync(int id)
+        public async Task<ServiceViewModel> GetByIdAsync(int id)
         {
             var model = await _repository.GetByIdAsync(id);
 
             if (model == null) throw new ArgumentNullException("id");
 
-            var result = new PositionViewModel()
+            var result = new ServiceViewModel()
             {
                 Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
+                Picture = model.Picture,
             };
 
             return result;
         }
 
-        public async Task<bool> UpdateAsync(UpdatePositionViewModel entity, int id)
+        public async Task<bool> UpdateAsync(UpdateServiceViewModel entity, int id)
         {
             var model = await _repository.GetByIdAsync(id);
 
             if (model == null) throw new ArgumentNullException("id");
 
-            var updatedPosition = new Position()
+            var updatedService = new Service()
             {
                 Id = model.Id,
                 Name = entity.Name,
                 Description = entity.Description,
-                EmployeeId = entity.EmployeeId,
+                Picture = entity.Picture,
             };
 
-            var result = await _repository.UpdateAsync(updatedPosition);
+            var result = await _repository.UpdateAsync(updatedService);
 
             return result;
         }
